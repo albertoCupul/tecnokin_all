@@ -1,0 +1,3 @@
+Los campos de texto se pasan con =, los demas campos con :=
+
+http GET http://localhost:3000/user/getList authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwd2QiOiI5OTAyMzAwMkFidCEiLCJpYXQiOjE2MjU1OTc4MzMsImV4cCI6MTYyNTY4NDIzM30.A2BhGNT-1o65cPy029XefDjwK9tQpZnfTRltOZ2wOnU"

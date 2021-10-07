@@ -1,0 +1,12 @@
+Los campos de texto se pasan con =, los demas campos con :=
+El campo editable indica si es una variable del sistema y nose puede cambiar (0) o del usuario (1)
+
+http PUT http://localhost:3000/usrAccess/edit pwd="99023002" id=60e4857df0da711c2bc7fe58 authorization:"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwd2QiOiI5OTAyMzAwMiIsImlhdCI6MTYyNTYyMTA0MSwiZXhwIjoxNjI1NzA3NDQxfQ.1ERaC844E1idEUOT2zXzIOr_Y_1NQ9-pL7vr2yEHaTQ"
+
+la consulta equivale a:
+{
+    name = "login_app",
+    first = "Cupul",
+    second = "Aguilar",
+    phone = "9811133477"
+}

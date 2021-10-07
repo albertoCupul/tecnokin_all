@@ -1,0 +1,20 @@
+@import "./quasar.variables.scss";
+
+.panelMain {
+  background: $background-panel !important;
+  color: $primary;
+}
+
+.piePagina {
+    color: $text-color;
+    font-size: 10px;
+}
+
+.titleBar {
+  font-size: 16px;
+}
+
+.userAcount{
+    color: $primary;
+    font-size: 14px;  
+}
