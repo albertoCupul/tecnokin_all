@@ -13,7 +13,7 @@ import axios from 'axios'
 //     'Content-Type': 'application/json'
 //   }
 // }
-const api = axios.create( {baseURL: "http://192.168.1.109:3000/"} )
+const api = axios.create( {baseURL: "http://192.168.1.105:3000/"} )
 
 export default boot(({ app }) => {
   const appObject = app;

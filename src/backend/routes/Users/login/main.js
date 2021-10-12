@@ -47,9 +47,9 @@ routeLogin.post('/validateToken/:getDataUser', async (req, resp) => {
     const  {getDataUser} = req.params;
     let accessData = null;
     let response = await loginWithToken(token);    
-    if (response === 1) {
-      if (getDataUser) {        
-        accessData = await getAccessData(token, true);
+    if (response === 1) {      
+      if (getDataUser==="true") {        
+        accessData = await getAccessData(token, getDataUser);
       }
       response = respApi.getSuccess(100, 'Login', 'ValidateLogin', 'Login correcto.', accessData);
       resp.send(response);

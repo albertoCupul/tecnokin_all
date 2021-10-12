@@ -25,6 +25,9 @@ const routeInventory = require('./routes/Products/inventory/main');
 const routeOffer = require('./routes/Products/offer/main');
 
 const routeUser = require('./routes/Users/user/main');
+const routeClient = require("./routes/Client/client/main");
+const routeClientDetail = require("./routes/Client/details/main");
+const routePerfil = require("./routes/Client/perfil/main");
 const routeAccess = require('./routes/Users/access/main');
 const routeLogin = require('./routes/Users/login/main');
 
@@ -48,6 +51,9 @@ app.use('/product', auth, routeProduct);
 app.use('/inventory', auth, routeInventory);
 app.use('/offer', auth, routeOffer);
 app.use('/user', auth, routeUser);
+app.use('/client', auth, routeClient);
+app.use('/clientDetail', auth, routeClientDetail);
+app.use('/perfil', auth, routePerfil);
 app.use('/usrAccess', auth, routeAccess);
 app.use('/login', routeLogin);
 app.use('/business',auth, routeBusiness)

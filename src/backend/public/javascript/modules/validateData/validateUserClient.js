@@ -49,9 +49,27 @@ function phone(telNumber) {
   return resp;
 }
 
+function address(value) {
+  const regex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,#-]{3,200}$/;
+  let valid = false;
+  if (value) {
+    valid = regex.test(value);
+  }
+  return valid;
+}
+
+function rfc(value){
+  const regex = /^([A-ZÑ]|&){3,4}[0-9]{2}(0[1-9]|1[0-2])([12][0-9]|0[1-9]|3[01])[A-Z0-9]{3}$/;
+  let valid = false;
+  if (value){
+    valid = regex.test(value)
+  }
+  return valid
+}
+
 function validateUser(object) {
-  const isValidName = name(object.name);
-  const isValidFirst = name(object.first);
+  const isValidName = address(object.name);
+  const isValidFirst = address(object.first);
   const isValidSecond = (object.second) ? name(object.second) : true;
   const isValidPhone = (object.phone) ? phone(object.phone) : true;
   if (isValidName && isValidFirst && isValidSecond && isValidPhone) {
@@ -60,10 +78,22 @@ function validateUser(object) {
   return false;
 }
 
+function validateDetailClient(object) {
+  const isValidAddress = (object.address) ? address(object.address) : true;
+  const isValidReferences = (object.references) ? address(object.references) : true;
+  const isValidRFC = (object.rfc) ? rfc(object.rfc) : true;
+  const isValidPhone = (object.phone) ? phone(object.phone) : true;
+  const isValidIdClient = (object.idClient) ? identificador(object.idClient) : true;
+  if (isValidAddress && isValidReferences && isValidRFC && isValidPhone && isValidIdClient) {
+    return true;
+  }
+  return false;
+}
+
 function validateAccessUser(object) {
   const isValidUser = user(object.user);
   const isValidPwd = pwd(object.pwd);
-  const isValidId = identificador(object.idUser);
+  const isValidId = identificador(object.idUser);  
   if (isValidUser && isValidPwd && isValidId) {
     return true;
   }
@@ -97,3 +127,4 @@ module.exports.validateUser = validateUser;
 module.exports.validateAccessUser = validateAccessUser;
 module.exports.validateResetPwd = validateResetPwd;
 module.exports.login = login;
+module.exports.validateDetailClient = validateDetailClient;

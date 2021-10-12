@@ -107,7 +107,6 @@ routeBusiness.get('/get/:id', async (req, resp)=>{
     }
      if (isValid) {
       response = await gBusiness(id);
-      console.log(response)
       switch (response) {
         case true:
           response = respApi.createSuccess(100, 'Business', 'Get Business', 'No hay negocio registrado con ese identificador.');
@@ -124,36 +123,6 @@ routeBusiness.get('/get/:id', async (req, resp)=>{
     resp.send(response);
   } catch (error) {
     const errResponse = respApi.createError(500, 'Business', 'Get Business', 'Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.', error.message);
-    resp.send(errResponse);    
-  }
-})
-
-routeBusiness.get('/get/:id', async (req, resp)=>{
-  try {
-    const {id} = req.params;
-    let isValid = false;
-    let response;
-    if (id) {
-      isValid = business.identificador(id);      
-    }
-     if (isValid) {
-      response = await gBusiness(id);
-      switch (response) {
-        case true:
-          response = respApi.createSuccess(100, 'Business', 'Get Data', 'No hay negocio registrado con ese identificador.');
-          break;
-        case false:
-          response = respApi.createError(500, 'Business', 'Get Data', 'Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.', null);
-          break;
-        default:
-          response = respApi.getSuccess(100, 'Business', 'Get Data', 'Negocio encontrado exitosamente.', response);  
-          break;
-      }} else {
-      response = respApi.createSuccess(400, 'Business', 'Get Data', 'La información enviada no cumple con las reglas permitidas. Favor de validar');
-    }
-    resp.send(response);
-  } catch (error) {
-    const errResponse = respApi.createError(500, 'Business', 'Get Data', 'Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.', error.message);
     resp.send(errResponse);    
   }
 })
