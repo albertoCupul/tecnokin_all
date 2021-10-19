@@ -1,23 +1,44 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
-const SchemaProduct = new Schema({
-  name: { type: String, required: true, index: true },
-  first: { type: String, required: true, index: true },
-  second: { type: String, index: true },
-  registerDate: { type: Date, default: Date.now },
-},
-{
-  collection: 'Client',
-});
+const SchemaClient = new Schema(
+  {
+    name: { type: String, required: true, index: true },
+    first: { type: String, required: true, index: true },
+    second: { type: String, index: true },
+    registerDate: { type: Date, default: Date.now },
+    idDetail: { type: Schema.Types.ObjectId, ref: "ClientDetail" },
+    idPerfil: {
+      type: Schema.Types.ObjectId,
+      ref: "ClientePerfil",
+    },
 
-SchemaProduct.methods.findOneAndUpdate = (filter, data) => mongoose.model('Client').findOneAndUpdate(filter, data).exec();
+    idCredit: { type: Schema.Types.ObjectId, ref: "Credit" },
+  },
+  {
+    collection: "Client",
+  }
+);
 
-SchemaProduct.methods.findOneAndRemove = (filter) => mongoose.model('Client').findOneAndRemove(filter).exec();
+SchemaClient.methods.findOneAndUpdate = (filter, data) =>
+  mongoose.model("Client").findOneAndUpdate(filter, data).exec();
 
-SchemaProduct.methods.findOne = (filter) => mongoose.model('Client').findOne(filter).exec();
+SchemaClient.methods.findOneAndRemove = (filter) =>
+  mongoose.model("Client").findOneAndRemove(filter).exec();
 
-SchemaProduct.methods.find = () => mongoose.model('Client').find().exec();
+SchemaClient.methods.findOne = (filter) =>
+  mongoose.model("Client").findOne(filter).exec();
 
-module.exports = mongoose.model('Client', SchemaProduct);
+SchemaClient.methods.find = () => mongoose.model("Client").find().exec();
+
+SchemaClient.methods.findOnePopulate = (filter) =>
+  mongoose
+    .model("Client")
+    .findOne(filter)
+    .populate("idDetail")
+    .populate("idPerfil")
+    .populate("idCredit")
+    .exec();
+
+module.exports = mongoose.model("Client", SchemaClient);

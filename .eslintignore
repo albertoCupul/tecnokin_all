@@ -2,6 +2,7 @@
 /src-bex/www
 /src-capacitor
 /src-cordova
+/src/backend/node_modules
 /.quasar
 /node_modules
 .eslintrc.js

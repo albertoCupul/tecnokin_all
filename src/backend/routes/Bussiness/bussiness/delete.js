@@ -1,3 +1,4 @@
+
 const SchemaBusiness = require('../../../public/javascript/modules/mongoDB/models/Bussiness/business');
 
 async function remove(id) {
@@ -5,7 +6,7 @@ async function remove(id) {
     const Schema = new SchemaBusiness();
     const filter = { _id: id };
     const business = await Schema.findOne(filter);
-
+    
     if (!business) {
       return 2;
     }
@@ -16,5 +17,9 @@ async function remove(id) {
     return error;
   }
 }
+
+// async function preRemove(){
+
+// }
 
 module.exports = remove;

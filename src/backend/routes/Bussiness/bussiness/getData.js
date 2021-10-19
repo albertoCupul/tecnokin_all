@@ -10,8 +10,6 @@ async function getData(id) {
     }
     return business;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error)
     return false;
   }
 }

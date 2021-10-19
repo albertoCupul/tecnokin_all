@@ -3,12 +3,13 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const SchemaProduct = new Schema({
-  name: { type: String, required: true },
+  name: { type: String, required: true, unique:true, index:true },
   address: { type: String, required: true },
   city: { type: String, required: true },
   state: { type: String, required: true },
   phone: { type: String },
-  idBussiness: { type: Schema.Types.ObjectId, ref: 'Business' },
+  status: {type: Boolean, required:true},
+  idBusiness: { type: Schema.Types.ObjectId, ref: 'Business' },
 },
 {
   collection: 'BranchOffice',
@@ -20,8 +21,8 @@ SchemaProduct.methods.findOneAndRemove = (filter) => mongoose.model('BranchOffic
 
 SchemaProduct.methods.findOne = (filter) => mongoose.model('BranchOffice').findOne(filter).exec();
 
-SchemaProduct.methods.find = () => mongoose.model('BranchOffice').find().exec();
+SchemaProduct.methods.find = (filter) => mongoose.model('BranchOffice').find(filter).exec();
 
-SchemaProduct.methods.findOnePopulate = (filter) => mongoose.model('Business').findOne(filter).populate('idBussiness').exec();
+SchemaProduct.methods.findOnePopulate = (filter) => mongoose.model('BranchOffice').findOne(filter).populate('idBussiness').exec();
 
 module.exports = mongoose.model('BranchOffice', SchemaProduct);

@@ -1,4 +1,4 @@
-const SchemaClientDetail = require('../../../public/javascript/modules/mongoDB/models/Clients/details');
+const SchemaClientDetail = require("../../../public/javascript/modules/mongoDB/models/Clients/details");
 
 async function create(object) {
   try {
@@ -8,9 +8,11 @@ async function create(object) {
     Schema.phone = object.phone ? object.phone : null;
     Schema.rfc = object.rfc ? object.rfc : null;
     Schema.idClient = object.idClient;
-    await Schema.save();
-    return true;
+    return await Schema.save();
   } catch (error) {
+    if (error.code === 11000) {
+      return true;
+    }
     return false;
   }
 }

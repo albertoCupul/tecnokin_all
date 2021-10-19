@@ -1,23 +1,23 @@
-const SchemaBusiness = require('../../../public/javascript/modules/mongoDB/models/Bussiness/business');
+const SchemaBranch = require('../../../public/javascript/modules/mongoDB/models/Bussiness/branchhOffice');
 
 async function edit(object) {
   try {
-    const Schema = new SchemaBusiness();
+    const Schema = new SchemaBranch();
     const filter = { _id: object.id };
-    const business = await Schema.findOne(filter);
+    const branch = await Schema.findOne(filter);
 
-    if (!business) {
+    if (!branch) {
       return 2;
     }
 
-    business.name = object.name;
-    business.agent = object.agent;
-    business.phone = object.phone;
-    business.email = object.email;
-    if (business.status){
-      business.status = object.status;
-    }    
-    await business.save();
+    branch.name = object.name;
+    branch.address = object.address;
+    branch.city = object.city;
+    branch.state = object.state;
+    branch.phone = object.phone;
+    branch.status = object.status;
+    branch.idBusiness = object.idBusiness;   
+    await branch.save();
     return 1;
   } catch (error) {
     return error;

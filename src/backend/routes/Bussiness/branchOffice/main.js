@@ -10,22 +10,22 @@ const lBusiness = require('./getList')
 
 const respApi = require('../../../public/javascript/modules/reponsesApi/create');
 
-const routeBusiness = express.Router();
+const routeBranch = express.Router();
 
-routeBusiness.post('/new', async (req, resp) => {
+routeBranch.post('/new', async (req, resp) => {
   try {
     const object = req.body;
     let isValid = false;
     let response;
     if (object) {
-      isValid = branch.validate(object, false);      
+      isValid = branch.validateBranch(object, false);      
     }
     if (isValid) {
       response = await cBusiness(object);
       if (response) {
-        response = respApi.createSuccess(201, 'Branch', 'New', 'Negocio creado exitosamente.');
+        response = respApi.createSuccess(201, 'Branch', 'New', 'Sucursal creado exitosamente.');
       } else {
-        response = respApi.createSuccess(400, 'Branch', 'New', 'Ya existe un negocio registrado con ese usuario.');
+        response = respApi.createSuccess(400, 'Branch', 'New', 'Ya existe un sucursal registrado con ese usuario.');
       }
     } else {
       response = respApi.createSuccess(400, 'Branch', 'New', 'La información enviada no cumple con las reglas permitidas. Favor de validar');
@@ -37,22 +37,22 @@ routeBusiness.post('/new', async (req, resp) => {
   }
 });
 
-routeBusiness.put('/edit', async (req, resp) => {
+routeBranch.put('/edit', async (req, resp) => {
   try {
     const object = req.body;
     let isValid = false;
     let response;
     if (object) {
-      isValid = branch.validate(object);      
+      isValid = branch.validateBranch(object);      
     }
     if (isValid) {
       response = await eBusiness(object);
       switch (response) {
         case 1:
-          response = respApi.createSuccess(100, 'Branch', 'Edit', 'Negocio editado exitosamente.');  
+          response = respApi.createSuccess(100, 'Branch', 'Edit', 'Sucursal editado exitosamente.');  
           break;
         case 2:
-          response = respApi.createSuccess(400, 'Branch', 'Edit', 'No existe un negocio registrado con ese identificador.');  
+          response = respApi.createSuccess(400, 'Branch', 'Edit', 'No existe un Sucursal registrado con ese identificador.');  
           break;
         default:
           response = respApi.createError(500, 'Branch', 'Edit', 'Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.', response.message);
@@ -67,7 +67,7 @@ routeBusiness.put('/edit', async (req, resp) => {
   }
 });
 
-routeBusiness.delete('/delete/:id', async (req, resp) => {
+routeBranch.delete('/delete/:id', async (req, resp) => {
   try {
     const { id } = req.params;
     let isValid = false;
@@ -79,10 +79,10 @@ routeBusiness.delete('/delete/:id', async (req, resp) => {
       response = await dBusiness(id);
       switch (response) {
         case 1:
-          response = respApi.createSuccess(100, 'Branch', 'Delete', 'Negocio eliminado exitosamente.');  
+          response = respApi.createSuccess(100, 'Branch', 'Delete', 'Sucursal eliminado exitosamente.');  
           break;
         case 2:
-          response = respApi.createSuccess(400, 'Branch', 'Delete', 'No existe un negocio registrado con ese identificador.');  
+          response = respApi.createSuccess(400, 'Branch', 'Delete', 'No existe un Sucursal registrado con ese identificador.');  
           break;
         default:
           response = respApi.createError(500, 'Branch', 'Delete', 'Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.', response.message);
@@ -97,39 +97,7 @@ routeBusiness.delete('/delete/:id', async (req, resp) => {
   }
 });
 
-routeBusiness.get('/get/:id', async (req, resp)=>{
-  try {
-    const {id} = req.params;
-    let isValid = false;
-    let response;
-    if (id) {
-      isValid = branch.identificador(id);      
-    }
-     if (isValid) {
-      response = await gBusiness(id);
-      // eslint-disable-next-line no-console
-      console.log(response)
-      switch (response) {
-        case true:
-          response = respApi.createSuccess(100, 'Branch', 'Get Business', 'No hay negocio registrado con ese identificador.');
-          break;
-        case false:
-          response = respApi.createError(500, 'Branch', 'Get Business', 'Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.', null);
-          break;
-        default:
-          response = respApi.getSuccess(100, 'Branch', 'Get Business', 'Negocio encontrado exitosamente.', response);  
-          break;
-      }} else {
-      response = respApi.createSuccess(400, 'Branch', 'Get Business', 'La información enviada no cumple con las reglas permitidas. Favor de validar');
-    }
-    resp.send(response);
-  } catch (error) {
-    const errResponse = respApi.createError(500, 'Branch', 'Get Business', 'Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.', error.message);
-    resp.send(errResponse);    
-  }
-})
-
-routeBusiness.get('/get/:id', async (req, resp)=>{
+routeBranch.get('/get/:id', async (req, resp)=>{
   try {
     const {id} = req.params;
     let isValid = false;
@@ -141,30 +109,30 @@ routeBusiness.get('/get/:id', async (req, resp)=>{
       response = await gBusiness(id);
       switch (response) {
         case true:
-          response = respApi.createSuccess(100, 'Branch', 'Get Data', 'No hay negocio registrado con ese identificador.');
+          response = respApi.createSuccess(100, 'Branch', 'Get Branch', 'No hay Sucursal registrado con ese identificador.');
           break;
         case false:
-          response = respApi.createError(500, 'Branch', 'Get Data', 'Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.', null);
+          response = respApi.createError(500, 'Branch', 'Get Branch', 'Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.', null);
           break;
         default:
-          response = respApi.getSuccess(100, 'Branch', 'Get Data', 'Negocio encontrado exitosamente.', response);  
+          response = respApi.getSuccess(100, 'Branch', 'Get Branch', 'Sucursal encontrado exitosamente.', response);  
           break;
       }} else {
-      response = respApi.createSuccess(400, 'Branch', 'Get Data', 'La información enviada no cumple con las reglas permitidas. Favor de validar');
+      response = respApi.createSuccess(400, 'Branch', 'Get Branch', 'La información enviada no cumple con las reglas permitidas. Favor de validar');
     }
     resp.send(response);
   } catch (error) {
-    const errResponse = respApi.createError(500, 'Branch', 'Get Data', 'Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.', error.message);
+    const errResponse = respApi.createError(500, 'Branch', 'Get Branch', 'Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.', error.message);
     resp.send(errResponse);    
   }
 })
 
-routeBusiness.get('/getList', async (req, resp)=>{
-  try {
-    let response = await lBusiness();
+routeBranch.get('/getList/', async (req, resp)=>{
+  try {      
+      let response = await lBusiness();    
       switch (response) {
         case true:
-          response = respApi.createSuccess(100, 'Branch', 'Get List', 'No hay negocios registrados en el sistema.');
+          response = respApi.createSuccess(100, 'Branch', 'Get List', 'No hay Sucursals registrados en el sistema.');
           break;
         case false:
           response = respApi.createError(500, 'Branch', 'Get List', 'Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.', null);
@@ -180,5 +148,31 @@ routeBusiness.get('/getList', async (req, resp)=>{
   }
 })
 
+routeBranch.get('/getList/:idBusiness', async (req, resp)=>{
+  try {      
+    const {idBusiness} = req.params
+    const isValid = branch.identificador(idBusiness);    
+    let response;
+    if (isValid){
+      response = await lBusiness(idBusiness);    
+    }
+    switch (response) {
+      case true:
+        response = respApi.createSuccess(400, 'Branch', 'Get List', 'No hay Sucursals registrados en el sistema para ese negocio.');
+        break;
+      case false:
+        response = respApi.createError(500, 'Branch', 'Get List', 'Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.', null);
+        break;
+      default:
+        response = respApi.getSuccess(100, 'Branch', 'Get List', 'Listado de suscursales encontrado exitosamente.', response);  
+        break;
+      }
+    resp.send(response);
+  } catch (error) {
+    const errResponse = respApi.createError(500, 'Branch', 'Get List', 'Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.', error.message);
+    resp.send(errResponse);    
+  }
+})
 
-module.exports = routeBusiness;
+
+module.exports = routeBranch;

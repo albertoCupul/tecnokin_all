@@ -1,19 +1,18 @@
-const SchemaClient = require('../../../public/javascript/modules/mongoDB/models/Clients/clMain');
+const SchemaClient = require("../../../public/javascript/modules/mongoDB/models/Perfil/perfilCliente");
 
 async function edit(object) {
   try {
     const Schema = new SchemaClient();
     const filter = { _id: object.id };
-    const client = await Schema.findOne(filter);
+    const perfil = await Schema.findOne(filter);
 
-    if (!client) {
+    if (!perfil) {
       return 2;
     }
 
-    client.name = object.name;
-    client.first = object.first;
-    client.second = object.second;
-    await client.save();
+    perfil.name = object.name;
+    perfil.idRule = object.idRule;
+    await perfil.save();
     return 1;
   } catch (error) {
     return 2;

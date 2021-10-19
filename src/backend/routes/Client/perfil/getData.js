@@ -1,14 +1,14 @@
-const SchemaClient = require('../../../public/javascript/modules/mongoDB/models/Clients/clMain');
+const SchemaPerfilClient = require("../../../public/javascript/modules/mongoDB/models/Perfil/perfilCliente");
 
-async function getClientData(idClient) {
+async function getClientData(idPerfilClient) {
   try {
-    const Schema = new SchemaClient();
-    const filter = { _id: idClient };
-    const data = await Schema.findOne(filter);
-    if (!data) {
+    const Schema = new SchemaPerfilClient();
+    const filter = { _id: idPerfilClient };
+    const perfil = await Schema.findOne(filter);
+    if (!perfil) {
       return true;
     }
-    return data;
+    return perfil;
   } catch (error) {
     return false;
   }

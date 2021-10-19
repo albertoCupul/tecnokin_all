@@ -1,8 +1,8 @@
-const SchemaBusiness = require('../../../public/javascript/modules/mongoDB/models/Bussiness/business');
+const SchemaBranch = require('../../../public/javascript/modules/mongoDB/models/Bussiness/branchhOffice');
 
 async function remove(id) {
   try {
-    const Schema = new SchemaBusiness();
+    const Schema = new SchemaBranch();
     const filter = { _id: id };
     const business = await Schema.findOne(filter);
 

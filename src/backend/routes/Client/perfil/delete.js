@@ -1,16 +1,16 @@
-const SchemaClient = require('../../../public/javascript/modules/mongoDB/models/Clients/clMain');
+const SchemaPerfilClient = require("../../../public/javascript/modules/mongoDB/models/Perfil/perfilCliente");
 
 async function remove(id) {
   try {
-    const Schema = new SchemaClient();
+    const Schema = new SchemaPerfilClient();
     const filter = { _id: id };
-    const client = await Schema.findOne(filter);
+    const perfil = await Schema.findOne(filter);
 
-    if (!client) {
+    if (!perfil) {
       return 2;
     }
 
-    client.remove();
+    perfil.remove();
     return 1;
   } catch (error) {
     return 3;

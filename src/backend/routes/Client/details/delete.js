@@ -1,4 +1,4 @@
-const SchemaClientDetail = require('../../../public/javascript/modules/mongoDB/models/Clients/details');
+const SchemaClientDetail = require("../../../public/javascript/modules/mongoDB/models/Clients/details");
 
 async function remove(id) {
   try {
@@ -7,13 +7,12 @@ async function remove(id) {
     const clDetail = await Schema.findOne(filter);
 
     if (!clDetail) {
-      return 2;
+      return null;
     }
 
-    clDetail.remove();
-    return 1;
+    return clDetail.remove();
   } catch (error) {
-    return 3;
+    return false;
   }
 }
 

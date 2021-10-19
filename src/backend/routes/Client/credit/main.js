@@ -1,11 +1,12 @@
 const express = require("express");
 
-const validate = require("../../../public/javascript/modules/validateData/simpleValidate");
+const validate = require("../../../public/javascript/modules/validateData/validateUserClient");
 
-const nPerfil = require("./create");
-const ePerfil = require("./edit");
-const dPerfil = require("./delete");
-const gPerfil = require("./getData");
+const nCredit = require("./create");
+const eCredit = require("./edit");
+const dCredit = require("./delete");
+const gCredit = require("./getData");
+// const lCredit = require("./getList");
 
 const respApi = require("../../../public/javascript/modules/reponsesApi/create");
 
@@ -13,30 +14,32 @@ const routePerfil = express.Router();
 
 routePerfil.post("/new", async (req, resp) => {
   try {
-    const { name } = req.body;
-    const { idRule } = req.body;
-    let isValidName = false;
-    let isValidRule = false;
+    const object = req.body;
     let response;
-    if (name && idRule) {
-      isValidName = validate.name(name);
-      isValidRule = validate.identificador(idRule);
-    }
-    if (isValidName && isValidRule) {
-      response = await nPerfil(name, idRule);
+    const isValid = validate.validateCredit(object);
+    if (isValid) {
+      response = await nCredit(object);
       switch (response) {
+        case null:
+          response = respApi.createSuccess(
+            400,
+            "Crédito Cliente",
+            "New",
+            "Identificador de cliente no existe en el sistema."
+          );
+          break;
         case true:
           response = respApi.createSuccess(
             400,
-            "Perfil Cliente",
+            "Crédito Cliente",
             "New",
-            "Ya existe un perfil con ese nombre."
+            "Identificador de cliente ya tiene asociado un crédito en el sistema."
           );
           break;
         case false:
           response = respApi.createSuccess(
-            400,
-            "Perfil Cliente",
+            500,
+            "Crédito Cliente",
             "New",
             "Hubo un error interno en el sistema. Favor de reportarlo a soporte."
           );
@@ -44,16 +47,16 @@ routePerfil.post("/new", async (req, resp) => {
         default:
           response = respApi.createSuccess(
             201,
-            "Perfil Cliente",
+            "Crédito Cliente",
             "New",
-            "Perfil creado exitosamente."
+            "Crédito añadido exitosamente."
           );
           break;
       }
     } else {
       response = respApi.createSuccess(
         400,
-        "Perfil Cliente",
+        "Crédito Cliente",
         "New",
         "La información enviada no cumple con las reglas permitidas. Favor de validar"
       );
@@ -62,7 +65,7 @@ routePerfil.post("/new", async (req, resp) => {
   } catch (error) {
     const errResponse = respApi.createError(
       500,
-      "Perfil Cliente",
+      "Crédito Cliente",
       "New",
       "Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.",
       error.message
@@ -73,62 +76,58 @@ routePerfil.post("/new", async (req, resp) => {
 
 routePerfil.put("/edit", async (req, resp) => {
   try {
-    const { name } = req.body;
-    const { idRule } = req.body;
-    const { id } = req.body;
-    let isValidName = false;
-    let isValidRule = false;
-    let isValidId = false;
+    const object = req.body;
     let response;
-    if (name && idRule) {
-      isValidName = validate.name(name);
-      isValidRule = validate.identificador(idRule);
-      isValidId = validate.identificador(id);
-    }
-    if (isValidName && isValidRule && isValidId) {
-      response = await ePerfil({ name, idRule, id });
+    const isValid = validate.validateCredit(object);
+    if (isValid) {
+      response = await eCredit(object);
       switch (response) {
-        case 1:
-          response = respApi.createSuccess(
-            100,
-            "Perfil Cliente",
-            "Edit",
-            "Perfil editado exitosamente."
-          );
-          break;
-        case 2:
+        case null:
           response = respApi.createSuccess(
             400,
-            "Perfil Cliente",
-            "Edit",
-            "Id de Perfil no existe en el sistema."
+            "Crédito Cliente",
+            "New",
+            "Identificador de cliente o de crédito no existe en el sistema."
           );
           break;
-        case 3:
+        case false:
+          response = respApi.createSuccess(
+            500,
+            "Crédito Cliente",
+            "New",
+            "Hubo un error interno en el sistema. Favor de reportarlo a soporte."
+          );
+          break;
+        case true:
           response = respApi.createSuccess(
             400,
-            "Perfil Cliente",
-            "Edit",
-            "No esta enviando todos los datos requeridos para la creación del perfil."
+            "Crédito Cliente",
+            "New",
+            "El identificador de crédito no corresponde al cliente enviado."
           );
           break;
         default:
+          response = respApi.createSuccess(
+            100,
+            "Crédito Cliente",
+            "New",
+            "Crédito actualizado exitosamente."
+          );
           break;
       }
     } else {
       response = respApi.createSuccess(
         400,
-        "Perfil Cliente",
-        "Edit",
+        "Crédito Cliente",
+        "New",
         "La información enviada no cumple con las reglas permitidas. Favor de validar"
       );
     }
-
     resp.send(response);
   } catch (error) {
     const errResponse = respApi.createError(
       500,
-      "Perfil Cliente",
+      "Crédito Cliente",
       "New",
       "Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.",
       error.message
@@ -140,46 +139,42 @@ routePerfil.put("/edit", async (req, resp) => {
 routePerfil.delete("/delete/:id", async (req, resp) => {
   try {
     const { id } = req.params;
-    let isValid = false;
     let response;
-    if (id) {
-      isValid = validate.identificador(id);
-    }
+    const isValid = validate.identificador(id);
     if (isValid) {
-      response = await dPerfil(id);
+      response = await dCredit(id);
       switch (response) {
-        case 1:
-          response = respApi.createSuccess(
-            100,
-            "Perfil Cliente",
-            "Delete",
-            "Perfil eliminado exitosamente."
-          );
-          break;
-        case 2:
+        case null:
           response = respApi.createSuccess(
             400,
-            "Perfil Cliente",
-            "Delete",
-            "Id de Perfil no existe en el sistema."
+            "Crédito Cliente",
+            "New",
+            "Identificador de crédito no existe en el sistema."
           );
           break;
-        case 3:
+        case false:
+        case true:
           response = respApi.createSuccess(
-            400,
-            "Perfil Cliente",
-            "Delete",
-            "No esta enviando todos los datos requeridos para la alta del usuario."
+            500,
+            "Crédito Cliente",
+            "New",
+            "Hubo un error interno en el sistema. Favor de reportarlo a soporte."
           );
           break;
         default:
+          response = respApi.createSuccess(
+            100,
+            "Crédito Cliente",
+            "New",
+            "Crédito eliminado exitosamente."
+          );
           break;
       }
     } else {
       response = respApi.createSuccess(
         400,
-        "Perfil Cliente",
-        "Delete",
+        "Crédito Cliente",
+        "New",
         "La información enviada no cumple con las reglas permitidas. Favor de validar"
       );
     }
@@ -187,8 +182,8 @@ routePerfil.delete("/delete/:id", async (req, resp) => {
   } catch (error) {
     const errResponse = respApi.createError(
       500,
-      "Perfil Cliente",
-      "Delete",
+      "Crédito Cliente",
+      "New",
       "Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.",
       error.message
     );
@@ -199,37 +194,34 @@ routePerfil.delete("/delete/:id", async (req, resp) => {
 routePerfil.get("/get/:id", async (req, resp) => {
   try {
     const { id } = req.params;
-    let isValid = false;
     let response;
-    if (id) {
-      isValid = validate.identificador(id);
-    }
+    const isValid = validate.identificador(id);
     if (isValid) {
-      response = await gPerfil(id);
+      response = await gCredit(id);
       switch (response) {
         case true:
           response = respApi.createSuccess(
-            100,
-            "Perfil Cliente",
-            "Get Perfil",
-            "No hay Perfil registrado con ese identificador."
+            400,
+            "Crédito Cliente",
+            "New",
+            "Identificador de crédito no existe en el sistema."
           );
           break;
         case false:
-          response = respApi.createError(
+        case null:
+          response = respApi.createSuccess(
             500,
-            "Perfil Cliente",
-            "Get Perfil",
-            "Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.",
-            null
+            "Crédito Cliente",
+            "New",
+            "Hubo un error interno en el sistema. Favor de reportarlo a soporte."
           );
           break;
         default:
           response = respApi.getSuccess(
             100,
-            "Perfil Cliente",
-            "Get Perfil",
-            "Perfil encontrado exitosamente.",
+            "Crédito Cliente",
+            "New",
+            "Crédito encontrado exitosamente.",
             response
           );
           break;
@@ -237,8 +229,8 @@ routePerfil.get("/get/:id", async (req, resp) => {
     } else {
       response = respApi.createSuccess(
         400,
-        "Perfil Cliente",
-        "Get Perfil",
+        "Crédito Cliente",
+        "New",
         "La información enviada no cumple con las reglas permitidas. Favor de validar"
       );
     }
@@ -246,8 +238,8 @@ routePerfil.get("/get/:id", async (req, resp) => {
   } catch (error) {
     const errResponse = respApi.createError(
       500,
-      "Perfil Cliente",
-      "Get Perfil",
+      "Crédito Cliente",
+      "New",
       "Hubo un error inesperado en el sistema. Favor de reportarlo a soporte.",
       error.message
     );

@@ -1,13 +1,17 @@
-const SchemaBusiness = require('../../../public/javascript/modules/mongoDB/models/Bussiness/business');
+const SchemaBranch = require('../../../public/javascript/modules/mongoDB/models/Bussiness/branchhOffice');
 
-async function getList() {
+async function getList(idBusiness) {
   try {
-    const Schema = new SchemaBusiness();    
-    const business = await Schema.find(); 
-    if (!business) {
+    let filter = null;
+    if (idBusiness){
+      filter={idBusiness}
+    }
+    const Schema = new SchemaBranch();    
+    const branch = await Schema.find(filter);     
+    if (branch.length===0) {
       return true;
     }
-    return business;
+    return branch;
   } catch (error) {
     return false;
   }

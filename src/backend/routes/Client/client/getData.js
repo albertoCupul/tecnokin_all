@@ -1,17 +1,17 @@
-const SchemaClient = require('../../../public/javascript/modules/mongoDB/models/Clients/clMain');
+const SchemaClient = require("../../../public/javascript/modules/mongoDB/models/Clients/clMain");
 
-async function getClientData(idClient) {
+async function getDataCl(id) {
   try {
     const Schema = new SchemaClient();
-    const filter = { _id: idClient };
-    const data = await Schema.findOne(filter);
-    if (!data) {
+    const filter = { _id: id };
+    const client = await Schema.findOnePopulate(filter);
+    if (!client) {
       return true;
     }
-    return data;
+    return client;
   } catch (error) {
     return false;
   }
 }
 
-module.exports = getClientData;
+module.exports = getDataCl;

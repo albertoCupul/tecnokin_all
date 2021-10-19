@@ -1,13 +1,15 @@
-const SchemaPerfil = require('../../../public/javascript/modules/mongoDB/models/Perfil/perfil');
+const SchemaPerfil = require("../../../public/javascript/modules/mongoDB/models/Perfil/perfilCliente");
 
 async function create(name, idRule) {
   try {
     const Schema = new SchemaPerfil();
     Schema.name = name;
     Schema.idRule = idRule;
-    await Schema.save();
-    return true;
+    return await Schema.save();
   } catch (error) {
+    if (error.code === 11000) {
+      return true;
+    }
     return false;
   }
 }

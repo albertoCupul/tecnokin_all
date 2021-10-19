@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const SchemaProduct = new Schema({
+const SchemaBusiness = new Schema({
   name: { type: String, required: true },
   agent: { type: String, required: true },
   phone: { type: String },
@@ -14,12 +14,16 @@ const SchemaProduct = new Schema({
   collection: 'Business',
 });
 
-SchemaProduct.methods.findOneAndUpdate = (filter, data) => mongoose.model('Business').findOneAndUpdate(filter, data).exec();
+SchemaBusiness.methods.findOneAndUpdate = (filter, data) => mongoose.model('Business').findOneAndUpdate(filter, data).exec();
 
-SchemaProduct.methods.findOneAndRemove = (filter) => mongoose.model('Business').findOneAndRemove(filter).exec();
+SchemaBusiness.methods.findOneAndRemove = (filter) => mongoose.model('Business').findOneAndRemove(filter).exec();
 
-SchemaProduct.methods.findOne = (filter) => mongoose.model('Business').findOne(filter).exec();
+SchemaBusiness.methods.findOne = (filter) => mongoose.model('Business').findOne(filter).exec();
 
-SchemaProduct.methods.find = () => mongoose.model('Business').find().exec();
+SchemaBusiness.methods.find = () => mongoose.model('Business').find().exec();
 
-module.exports = mongoose.model('Business', SchemaProduct);
+// SchemaBusiness.pre('remove', ()=> {
+  
+// })
+
+module.exports = mongoose.model('Business', SchemaBusiness);

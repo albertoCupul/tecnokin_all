@@ -1,9 +1,9 @@
-const SchemaClient = require('../../../public/javascript/modules/mongoDB/models/Clients/clMain');
+const SchemaClient = require("../../../public/javascript/modules/mongoDB/models/Clients/clMain");
 
 async function getList() {
- try {
-    const Schema = new SchemaClient();    
-    const client = await Schema.find(); 
+  try {
+    const Schema = new SchemaClient();
+    const client = await Schema.find();
     if (!client) {
       return true;
     }
