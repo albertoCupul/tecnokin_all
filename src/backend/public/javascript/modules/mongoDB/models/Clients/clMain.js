@@ -8,13 +8,14 @@ const SchemaClient = new Schema(
     first: { type: String, required: true, index: true },
     second: { type: String, index: true },
     registerDate: { type: Date, default: Date.now },
-    idDetail: { type: Schema.Types.ObjectId, ref: "ClientDetail" },
+    idDetail: { type: Schema.Types.ObjectId, ref: "ClientDetail", required: true },
     idPerfil: {
       type: Schema.Types.ObjectId,
       ref: "ClientePerfil",
+      required: true
     },
 
-    idCredit: { type: Schema.Types.ObjectId, ref: "Credit" },
+    idCredit: { type: Schema.Types.ObjectId, ref: "Credit", required: true },
   },
   {
     collection: "Client",

@@ -7,13 +7,12 @@ async function remove(id) {
     const perfil = await Schema.findOne(filter);
 
     if (!perfil) {
-      return 2;
+      return null;
     }
 
-    perfil.remove();
-    return 1;
+    return perfil.remove();
   } catch (error) {
-    return 3;
+    return false;
   }
 }
 

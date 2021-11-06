@@ -1,7 +1,8 @@
 const getClient = require("./client/getData");
 const getDetail = require("./details/getData");
-const getPerfil = require("./perfil/getData");
+const getPerfil = require("../Perfil/client/getData");
 const getCredit = require("./credit/getData");
+const getAccess = require("./access/getAccessData");
 
 const nDetail = require("./details/create");
 const eDetail = require("./details/edit");
@@ -25,6 +26,9 @@ async function existReference(id, schemaName) {
         break;
       case "Credit":
         data = await getCredit(id);
+        break;
+      case "ClientAccess":
+        data = await getAccess(id);
         break;
       default:
         return false;

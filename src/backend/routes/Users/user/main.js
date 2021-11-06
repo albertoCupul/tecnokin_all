@@ -21,10 +21,17 @@ routeUser.post('/new', async (req, resp) => {
     }
     if (isValid) {
       response = await nUser(object);
-      if (response) {
-        response = respApi.createSuccess(201, 'User', 'New', 'Usuario creado exitosamente.');
-      } else {
-        response = respApi.createSuccess(400, 'User', 'New', 'No esta enviando todos los datos requeridos para la alta del usuario.');
+      switch (response) {
+        case true:
+        case false:
+          response = respApi.createSuccess(500, 'User', 'New', 'Hubo un error inesperado. Favor de reintentar más tarde.');
+          break;
+        case null:
+          response = respApi.createSuccess(400, 'User', 'New', 'El usuario de acceso ya esta registrado en el sistema.');
+          break;
+        default:
+          response = respApi.createSuccess(201, 'User', 'New', 'Usuario creado exitosamente.');
+          break;
       }
     } else {
       response = respApi.createSuccess(400, 'User', 'New', 'La información enviada no cumple con las reglas permitidas. Favor de validar');
@@ -75,7 +82,9 @@ routeUser.put('/edit', async (req, resp) => {
 
 routeUser.delete('/delete/:id', async (req, resp) => {
   try {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     let isValid = false;
     let response;
     if (id) {

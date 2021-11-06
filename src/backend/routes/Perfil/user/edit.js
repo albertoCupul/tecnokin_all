@@ -1,4 +1,4 @@
-const SchemaClient = require("../../../public/javascript/modules/mongoDB/models/Perfil/perfilCliente");
+const SchemaClient = require("../../../public/javascript/modules/mongoDB/models/Perfil/perfilUser");
 
 async function edit(object) {
   try {
@@ -11,7 +11,6 @@ async function edit(object) {
     }
 
     perfil.name = object.name;
-    perfil.idRule = object.idRule;
     await perfil.save();
     return 1;
   } catch (error) {

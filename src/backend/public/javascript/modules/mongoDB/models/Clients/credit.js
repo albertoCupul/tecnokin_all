@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const SchemaProduct = new Schema(
   {
-    amount: { type: Number, required: true },
+    amount: { type: Schema.Types.Decimal128, required: true },
     idClient: {
       type: Schema.Types.ObjectId,
       ref: "Client",

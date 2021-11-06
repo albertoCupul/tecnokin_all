@@ -6,20 +6,20 @@ const SchemaProduct = new Schema({
   user: { type: String, required: true, unique: true },
   pwd: { type: String, required: true },
   logStatus: { type: String },
-  idUser: { type: Schema.Types.ObjectId, ref: 'User' },
+  idClient: { type: Schema.Types.ObjectId, ref: 'Client' },
 },
 {
-  collection: 'UsrAccess',
+  collection: 'ClientAccess',
 });
 
-SchemaProduct.methods.findOneAndUpdate = (filter, data) => mongoose.model('UsrAccess').findOneAndUpdate(filter, data).exec();
+SchemaProduct.methods.findOneAndUpdate = (filter, data) => mongoose.model('ClientAccess').findOneAndUpdate(filter, data).exec();
 
-SchemaProduct.methods.findOneAndRemove = (filter) => mongoose.model('UsrAccess').findOneAndRemove(filter).exec();
+SchemaProduct.methods.findOneAndRemove = (filter) => mongoose.model('ClientAccess').findOneAndRemove(filter).exec();
 
-SchemaProduct.methods.findOne = (filter) => mongoose.model('UsrAccess').findOne(filter).exec();
+SchemaProduct.methods.findOne = (filter) => mongoose.model('ClientAccess').findOne(filter).exec();
 
-SchemaProduct.methods.find = () => mongoose.model('UsrAccess').find().exec();
+SchemaProduct.methods.find = () => mongoose.model('ClientAccess').find().exec();
 
-SchemaProduct.methods.findOnePopulate = (filter) => mongoose.model('UsrAccess').findOne(filter).populate('idUser').exec();
+SchemaProduct.methods.findOnePopulate = (filter) => mongoose.model('ClientAccess').findOne(filter).populate('idUser').exec();
 
-module.exports = mongoose.model('UsrAccess', SchemaProduct);
+module.exports = mongoose.model('ClientAccess', SchemaProduct);

@@ -1,4 +1,4 @@
-const SchemaPerfil = require("../../../public/javascript/modules/mongoDB/models/Perfil/perfilCliente");
+const SchemaPerfil = require("../../../public/javascript/modules/mongoDB/models/Perfil/perfilUser");
 
 async function create(name, idRule) {
   try {
